@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import SalesGraph from './SalesGraph';
 
 function App() {
   const [orders, setOrders] = useState([]);
@@ -18,9 +17,10 @@ function App() {
     fetchOrders();
   }, []);
 
-  const calculateItemCountSum = (vendorName) => {
+  const calculateItemCountSum = (parentProductName, vendorName) => {
     return orders.reduce((sum, order) => {
       if (
+        order.parent_product_name === parentProductName &&
         order.vendor_name === vendorName
       ) {
         return sum + order.item_count;
@@ -58,10 +58,8 @@ function App() {
 
       {/* Example usage of calculateItemCountSum */}
       <div>
-        <p>Sum of item_count for 'Tuba Butik': {calculateItemCountSum('Tuba Butik')}</p>
+        <p>Sum of item_count for 'Example Product' and 'Example Vendor': {calculateItemCountSum('36287 - Crop Top - Black', 'Tuba Butik')}</p>
       </div>
-
-      <SalesGraph />
     </div>
   );
 }
