@@ -72,7 +72,7 @@ function App() {
       }));
 
       // Sort the modifiedOrders array by date
-      modifiedOrders.sort((a, b) => new Date(a.date) - new Date(b.date));
+      modifiedOrders.sort((a, b) => new Date(a.payment_at) - new Date(b.payment_at));
 
       const groupedOrders = groupOrders(modifiedOrders);
       setOrders(groupedOrders);
