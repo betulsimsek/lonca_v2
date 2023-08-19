@@ -16,6 +16,7 @@ function App() {
   const [vendorName, setVendorName] = useState('');
   const [chartData, setChartData] = useState(null);
   const [chartOptions, setChartOptions] = useState(null);
+  const [GraphData, setGraphData] = useState(null);
 
 // Function to group orders based on product_id and vendor_name
   const groupOrders = (orders) => {
@@ -41,12 +42,39 @@ function App() {
     return groupedOrders;
   };
 
+  const graphOrders = (orders) => {
+    const graphedOrders = orders.reduce((acc, order) => {
+      const existingOrderIndex = acc.findIndex(
+        (groupedOrder) =>
+          groupedOrder.month === order.month &&
+          groupedOrder.year === order.year &&
+          groupedOrder.vendor_name === order.vendor_name
+      );
+      if (existingOrderIndex !== -1) {
+        // If the order already exists, update its total_count
+        acc[existingOrderIndex].total_count += order.item_count;
+      } else {
+        // Otherwise, add a new order to the group
+        acc.push({
+          month: order.month,
+          year: order.year,
+          vendor_name: order.vendor_name,
+          total_count: order.item_count
+        });
+      }
+      return acc;
+    }, []);
+
+    return graphedOrders;
+  };
+
+
   const generateChartData = (groupedOrders) => {
     const labels = [];
     const data = [];
 
     groupedOrders.forEach((order) => {
-      const label = `${order.date.getMonth() + 1}-${order.date.getFullYear()}`;
+      const label = `${order.month }-${order.year}`;
       if (!labels.includes(label)) {
         labels.push(label);
         data.push(order.total_count);
@@ -78,9 +106,10 @@ function App() {
       modifiedOrders.sort((a, b) => new Date(a.payment_at) - new Date(b.payment_at));
 
       const groupedOrders = groupOrders(modifiedOrders);
+      const graphedOrders = graphOrders(modifiedOrders);
       setOrders(groupedOrders);
 
-      const chartData = generateChartData(groupedOrders);
+      const chartData = generateChartData(graphedOrders);
       setChartData(chartData);
 
       const chartOptions = {
