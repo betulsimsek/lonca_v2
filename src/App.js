@@ -70,6 +70,10 @@ function App() {
       const modifiedOrders = response.data.map((order) => ({
         ...order
       }));
+
+      // Sort the modifiedOrders array by date
+      modifiedOrders.sort((a, b) => new Date(a.date) - new Date(b.date));
+
       const groupedOrders = groupOrders(modifiedOrders);
       setOrders(groupedOrders);
 
@@ -85,8 +89,6 @@ function App() {
           }
         }
       };
-      setChartOptions(chartOptions);
-
       setChartOptions(chartOptions);
     } catch (error) {
       console.log(error);
