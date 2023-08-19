@@ -66,20 +66,6 @@ function App() {
     };
   };
 
-    const dataset = {
-      label: 'Total Item Count',
-      data: data,
-      fill: false,
-      borderColor: 'blue',
-      tension: 0.4
-    };
-
-    return {
-      labels: labels,
-      datasets: [dataset]
-    };
-  };
-
   const fetchOrders = async () => {
     try {
       const response = await axios.get(`https://lonca-backend-731a08051bd2.herokuapp.com/orders?vendorName=${vendorName}`);
