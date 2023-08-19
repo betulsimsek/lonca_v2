@@ -66,7 +66,7 @@ function App() {
 
   const fetchOrders = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/orders?vendorName=${vendorName}`);
+      const response = await axios.get(`https://lonca-backend-731a08051bd2.herokuapp.com/orders?vendorName=${vendorName}`);
       const modifiedOrders = response.data.map((order) => ({
         ...order
       }));
