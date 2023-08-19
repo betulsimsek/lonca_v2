@@ -19,14 +19,16 @@ function App() {
 
   const groupOrders = (orders) => {
     const groupedOrders = orders.reduce((acc, order) => {
-      const existingOrder = acc.find(
-        (groupedOrder) =>
+      const existingOrderIndex = acc.findIndex(
+        (groupedOrderß) =>
           groupedOrder.product_id === order.product_id &&
           groupedOrder.vendor_name === order.vendor_name
       );
-      if (existingOrder) {
-        existingOrder.total_count += order.item_count;
+      if (existingOrderIndex !== -1) {
+        // If the order already exists, update its total_count
+        acc[existingOrderIndex].total_count += order.item_count;
       } else {
+        // Otherwise, add a new order to the group
         acc.push({
           ...order,
           total_count: order.item_count
@@ -43,12 +45,26 @@ function App() {
     const data = [];
 
     groupedOrders.forEach((order) => {
-      const label = `${order.month}-${order.year}`;
+      const label = `${order.date.getMonth() + 1}-${order.date.getFullYear()}`;
       if (!labels.includes(label)) {
         labels.push(label);
         data.push(order.total_count);
       }
     });
+
+    const dataset = {
+      label: 'Total Item Count',
+      data: data,
+      fill: false,
+      borderColor: 'blue',
+      tension: 0.4
+    };
+
+    return {
+      labels: labels,
+      datasets: [dataset]
+    };
+  };
 
     const dataset = {
       label: 'Total Item Count',
