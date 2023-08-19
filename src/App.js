@@ -1,67 +1,76 @@
-import React, { useEffect, useState } from 'react';
+import React, {  useState } from 'react';
 import axios from 'axios';
-import SalesGraph from './SalesGraph';
 
 function App() {
   const [orders, setOrders] = useState([]);
+  const [vendorName, setVendorName] = useState('');
 
-  useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const response = await axios.get('http://localhost:5000/orders');
-        setOrders(response.data);
-      } catch (error) {
-        console.log(error);
+  const fetchOrders = async () => {
+    try {
+      const response = await axios.get(`http://localhost:5000/orders?vendorName=${vendorName}`);
+      const modifiedOrders = response.data.map((order) => ({
+        ...order}));
+      const groupedOrders = groupOrders(modifiedOrders);
+      setOrders(groupedOrders);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const groupOrders = (orders) => {
+    const groupedOrders = orders.reduce((acc, order) => {
+      const existingOrder = acc.find((groupedOrder) => 
+        groupedOrder.product_id === order.product_id && 
+        groupedOrder.vendor_name === order.vendor_name
+      );
+      if (existingOrder) {
+        existingOrder.total_count += order.item_count;
+      } else {
+        acc.push({
+          ...order,
+          total_count: order.item_count
+        });
       }
-    };
+      return acc;
+    }, []);
+    
+    return groupedOrders;
+  };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
     fetchOrders();
-  }, []);
-
-  const calculateItemCountSum = (vendorName) => {
-    return orders.reduce((sum, order) => {
-      if (
-        order.vendor_name === vendorName
-      ) {
-        return sum + order.item_count;
-      }
-      return sum;
-    }, 0);
   };
 
   return (
     <div className="w-100 vh-10 d-flex justify-content-center align-items-center">
       <div className="w-150">
-        <table className="table">
+        <form onSubmit={handleSubmit}>
+          <input type="text" value={vendorName} onChange={(e) => setVendorName(e.target.value)} placeholder="Enter Vendor Name" />
+          <button type="submit">Search</button>
+        </form>
+        <br />
+        <table style={{ border: "1px solid black" }}> {/* Add inline styles with the border property */}
           <thead>
             <tr>
-              <th>Product ID</th>
-              <th>Item Count</th>
-              <th>Parent Product Name</th>
-              <th>Vendor Name</th>
-              <th>Payment At</th>
+              <th style={{ border: "1px solid black" }}>Product ID</th>
+              <th style={{ border: "1px solid black" }}>Parent Product Name</th>
+              <th style={{ border: "1px solid black" }}>Vendor Name</th>
+              <th style={{ border: "1px solid black" }}>Total Count</th>
             </tr>
           </thead>
           <tbody>
             {orders.map((order) => (
               <tr key={order._id}>
-                <td>{order.product_id}</td>
-                <td>{order.item_count}</td>
-                <td>{order.parent_product_name}</td>
-                <td>{order.vendor_name}</td>
-                <td>{order.payment_at}</td>
+                <td style={{ border: "1px solid black" }}>{order.product_id}</td>
+                <td style={{ border: "1px solid black" }}>{order.parent_product_name}</td>
+                <td style={{ border: "1px solid black" }}>{order.vendor_name}</td>
+                <td style={{ border: "1px solid black" }}>{order.total_count}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-
-      {/* Example usage of calculateItemCountSum */}
-      <div>
-        <p>Sum of item_count for 'Tuba Butik': {calculateItemCountSum('Tuba Butik')}</p>
-      </div>
-
-      <SalesGraph />
     </div>
   );
 }
