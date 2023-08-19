@@ -17,11 +17,12 @@ function App() {
   const [chartData, setChartData] = useState(null);
   const [chartOptions, setChartOptions] = useState(null);
 
+// Function to group orders based on product_id and vendor_name
   const groupOrders = (orders) => {
     const groupedOrders = orders.reduce((acc, order) => {
       const existingOrderIndex = acc.findIndex(
-        (groupedOrderß) =>
-          groupedOrder.product_id === order.product_id &&
+        (groupedOrder) =>
+          groupedOrder._id === order._id &&
           groupedOrder.vendor_name === order.vendor_name
       );
       if (existingOrderIndex !== -1) {
