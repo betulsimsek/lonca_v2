@@ -22,8 +22,9 @@ function App() {
     const groupedOrders = orders.reduce((acc, order) => {
       const existingOrderIndex = acc.findIndex(
         (groupedOrder) =>
-          groupedOrder._id === order._id &&
-          groupedOrder.vendor_name === order.vendor_name
+          groupedOrder.year === order.year &&
+          groupedOrder.vendor_name === order.vendor_name &&
+          groupedOrder.month === order.month
       );
       if (existingOrderIndex !== -1) {
         // If the order already exists, update its total_count
