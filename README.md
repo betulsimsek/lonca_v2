@@ -1,70 +1,139 @@
-# Getting Started with Create React App
+## Uygulama Dokümantasyonu
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+Bu proje, bir Express uygulamasında bir MongoDB veritabanına bağlantı kurmayı ve `/orders` endpoint'i üzerinden veri çekmeyi sağlar. 
 
-In the project directory, you can run:
+Bu React uygulaması, belirli bir satıcı adına ait sipariş verilerini çeker ve bunları bir çizgi grafik üzerinde görselleştirir. Ayrıca, gruplandırılmış siparişlerin bir tablo şeklinde listelenmesini sağlar.
 
-### `npm start`
+### Kullanılan Teknolojiler
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Bu uygulamada aşağıdaki teknolojiler kullanılmaktadır:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- React: Front-end geliştirmek için kullanılan bir JavaScript kütüphanesidir.
+- axios: HTTP istekleri yapmak için kullanılan bir kütüphanedir.
+- react-chartjs-2: React ile uyumlu bir şekilde çizgi grafikleri oluşturmak için kullanılır.
+- chart.js: Verileri grafiklere dönüştürmek için kullanılan bir JavaScript kütüphanesidir.
 
-### `npm test`
+### Nasıl Çalışır?
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Uygulama, bir satıcı adını kullanıcı tarafından alır ve bu satıcıya ait sipariş verilerini bir API'dan çeker. API'ye yapılan isteğin sonucunda elde edilen veriler, önce gruplandırılır ve daha sonra bir çizgi grafik üzerinde gösterilir. Aynı zamanda, gruplandırılmış siparişler bir tablo şeklinde listelenir.
 
-### `npm run build`
+#### Fonksiyonlar
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Uygulama içinde aşağıdaki fonksiyonlar bulunmaktadır:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- `groupOrders`: Siparişleri ürün kimliği ve satıcı adına göre gruplandırmak için kullanılır.
+- `graphOrders`: Siparişleri ay, yıl ve satıcı adına göre gruplandırmak için kullanılır.
+- `generateChartData`: Gruplandırılmış sipariş verilerini çizgi grafik veri yapısına dönüştürmek için kullanılır.
+- `fetchOrders`: API'ye istek atarak sipariş verilerini almak için kullanılır.
+- `handleSubmit`: Satıcı adını girdikten sonra sipariş verilerini almak için kullanılan formu göndermek için kullanılır.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+#### Kullanılan Komponentler
 
-### `npm run eject`
+Uygulama içinde aşağıdaki komponentler kullanılmaktadır:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- `Line` (react-chartjs-2): Çizgi grafiğini oluşturmak için kullanılır.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Kurulum ve Çalıştırma
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Bu uygulamayı çalıştırmak için aşağıdaki adımları izleyebilirsiniz:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+1. Projeyi bilgisayarınıza klonlayın veya zip dosyasını indirip çıkartın.
+2. Proje dizinine geçin ve terminal açın.
+3. Proje bağımlılıklarını yüklemek için aşağıdaki komutu çalıştırın:
 
-## Learn More
+   ```
+   npm install
+   ```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+4. Bağımlılıklar yüklendikten sonra uygulamayı başlatmak için aşağıdaki komutu çalıştırın:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+   ```
+   npm start
+   ```
 
-### Code Splitting
+5. Tarayıcınızda [http://localhost:3000](http://localhost:3000) adresine giderek uygulamayı görüntüleyebilirsiniz.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Notlar
 
-### Analyzing the Bundle Size
+- Uygulama, `vendorName` değişkenine girilen satıcı adına göre sipariş verilerini alır. Bu değişkeni uygun bir satıcı adıyla değiştirerek farklı bir satıcıya ait siparişleri çekebilirsiniz.
+- Sipariş verileri API'den alındıktan sonra tarihlerine göre sıralanır ve gruplandırılır.
+- Grafik ve tablo, gruplandırılmış sipariş verilerine dayalı olarak oluşturulur.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Önkoşullar
 
-### Making a Progressive Web App
+- Node.js'in yüklü olduğundan emin olun. [Node.js'i indirin](https://nodejs.org)
+- MongoDB'nin yüklü olduğundan emin olun. [MongoDB'yi indirin](https://www.mongodb.com)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Yükleme
 
-### Advanced Configuration
+1. Projeyi klonlayın veya ZIP dosyasını indirip çıkarın.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+2. Konsolda projenin kök dizinine gidin.
 
-### Deployment
+3. Gerekli npm paketlerini yüklemek için aşağıdaki komutu çalıştırın:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+   ```shell
+   npm install
+   ```
 
-### `npm run build` fails to minify
+4. `.env` adında bir dosya oluşturun ve aşağıdaki değişkenleri tanımlayın:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+   ```plaintext
+   PORT=3000
+   CONNECTION_URL=mongodb://localhost:27017/
+   ```
+
+5. MongoDB'nin çalıştığından emin olun.
+
+6. Proje sunucusunu başlatmak için aşağıdaki komutu çalıştırın:
+
+   ```shell
+   npm start
+   ```
+
+7. Tarayıcınızda `http://localhost:3000` adresine giderek projeye erişebilirsiniz.
+```
+
+3. **API Dokümantasyonu**: Projenin API endpointleri:
+
+```markdown
+## API Dokümantasyonu
+
+### `/orders` Endpoint'i
+
+GET `/orders` endpoint'i, sipariş verilerini getirir. İsteğe bağlı olarak `vendorName` adında bir query parametresi alır.
+
+Örnek istek:
+
+```
+GET /orders?vendorName=Acme+Corp
+```
+
+Yukarıdaki örnekte, sadece `Acme Corp` adındaki satıcıya ait siparişler getirilir.
+
+#### Örnek Yanıt
+
+İsteğe göre filtrelenmiş bir yanıt örneği:
+
+```json
+[
+  {
+    "product_id": "123",
+    "item_count": 5,
+    "parent_product_name": "Product XYZ",
+    "vendor_name": "Acme Corp",
+    "payment_at": "2021-07-01T12:00:00Z",
+    "year": 2021,
+    "month": 7
+  },
+  ...
+]
+```
+```
+
+
+
+
+
+
